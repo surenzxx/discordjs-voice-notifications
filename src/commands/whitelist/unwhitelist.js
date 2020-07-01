@@ -43,7 +43,7 @@ module.exports = {
             let embed = new RichEmbed()
                 .setDescription(`Please specify a valid voice channel id and member id.`)
                 .setTimestamp()
-                .setColor("#25FF07");
+                .setColor("#FF0E74");
             let msg = await message.channel.send(embed);
         }
     },

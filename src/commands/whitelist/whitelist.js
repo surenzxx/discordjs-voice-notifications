@@ -44,12 +44,17 @@ module.exports = {
                     console.log(err);
                 }
             }
+            let embed = new RichEmbed()
+                .setDescription(`Success. You've whitelisted.`)
+                .setTimestamp()
+                .setColor("#25FF07");
+            let msg = await message.channel.send(embed);
         }
         else {
             let embed = new RichEmbed()
                 .setDescription(`Please specify a valid voice channel id and at least 1 member id.`)
                 .setTimestamp()
-                .setColor("#25FF07");
+                .setColor("#FF0E74");
             let msg = await message.channel.send(embed);
         }
         

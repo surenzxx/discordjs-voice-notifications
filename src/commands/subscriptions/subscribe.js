@@ -9,8 +9,6 @@ module.exports = {
                 .setDescription("Please specify a voice channel id.")
                 .setColor("#FF0E74");
             let msg = await message.channel.send(embed);
-            msg.delete(5000);
-            message.delete(5000);
             return;
         }
         try {
@@ -43,19 +41,6 @@ module.exports = {
                 .setTimestamp()
                 .setColor("#25FF07");
             let msg = await message.channel.send(embed);
-            const TIME = 1000;
-            let i = 5;
-            let intervalFn = setInterval(async () => {
-                let em = new RichEmbed()
-                    .setDescription(`Success. You've been subscribed to **${success.join(", ")}**`)
-                    .setTimestamp()
-                    .setColor("#25FF07")
-                    .setFooter(`This message will be deleted in ${i--} seconds.`)
-                await msg.edit(em);
-            }, TIME);
-            await clear(intervalFn, i);
-            await msg.delete(i*1000);
-            console.log("Deleted.");
         }
         catch(err) {
             console.log(err);
@@ -69,7 +54,6 @@ module.exports = {
 function clear(fn, i) {
     return new Promise((resolve) => {
         setTimeout(() => {
-            clearInterval(fn);
             console.log("Cleared.");
             resolve();
         }, i*1000);
