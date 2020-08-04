@@ -42,14 +42,12 @@ module.exports = async(client, oldMember, newMember) => {
                         .setTimestamp();
                     // Find member by ID
                     let member = newMember.guild.members.find(m => m.id === subscriptionIds[i]);
-		    //console.log(member.voiceChannel) 
-		    //if member exists and is not in voiceChannel in current Guild
+            		//if member exists and is not in voiceChannel in current Guild
                     if (member && typeof member.voiceChannel === "undefined") 
                         member.user.send(embed);
                     else console.log("Member not found..");
                 } else {
                     console.log("Whitelist is not empty");
-                    //console.log(whitelist);
                     if (whitelist.find(id => id === newMember.id) && newMember.user.bot == false) {
                         // Send message.
                         let invite = await newMember.voiceChannel.createInvite();
@@ -61,8 +59,7 @@ module.exports = async(client, oldMember, newMember) => {
                             .setColor("#298DEC")
                             .setTimestamp();
                         let member = newMember.guild.members.find(m => m.id === subscriptionIds[i]);
-			//console.log(member.voiceChannel)
-		       //if member exists and is not in voiceChannel in current Guild
+		       			//if member exists and is not in voiceChannel in current Guild
                         if (member && typeof member.voiceChannel === "undefined")
                             member.user.send(embed);
                         else console.log("Member not found..");
