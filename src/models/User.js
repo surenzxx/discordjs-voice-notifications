@@ -6,7 +6,9 @@ module.exports = class User extends Model {
             clientId: { type: DataTypes.STRING, primaryKey: true },
             joined: { type: DataTypes.DATE, allowNull: false },
             createdAt: { type: DataTypes.DATE, allowNull: false },
-            username: { type: DataTypes.STRING, allowNull: true }
+            username: { type: DataTypes.STRING, allowNull: true },
+            lastJoinedTime: { type: DataTypes.DATE, allowNull: true },
+            lastVoiceChannel: { type: DataTypes.STRING, allowNull: true }
         }, { 
             sequelize: sequelize, 
             timestamps: true, 

@@ -7,7 +7,7 @@ const { registerDBModels, registerCommands, registerEvents } = require('./utils/
     try {
         client.commands = new Map();
         client.events = new Map();
-        client.prefix = '?';
+        client.prefix = '*';
         
         await db.authenticate();
         await registerCommands('commands', client);

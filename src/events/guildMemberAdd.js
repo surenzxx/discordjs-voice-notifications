@@ -13,7 +13,7 @@ module.exports = async (client, member) => {
         let newUser = await User.findOrCreate({ 
             where: { clientId: member.id },
             defaults: {
-                userId: member.id,
+                clientId: member.id,
                 joined: member.joinedAt,
                 createdAt: member.user.createdAt,
                 username: member.user.username
