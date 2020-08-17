@@ -6,44 +6,43 @@ const { RichEmbed } = require('discord.js');
 
 module.exports = async(client, oldMember, newMember) => {
     // If member joins voice channel.
-    if (!oldMember.voiceChannel && newMember.voiceChannel && newMember.guild.name == "Dune") {
+    if (!oldMember.voiceChannel && newMember.voiceChannel) {
         console.log(newMember.user.username + " joined. ");
-        const timeStamp = Date.now();
-        //Date object thats 5 minutes in the past
-        var dt = new Date();
-        dt.setMinutes(dt.getMinutes() - 5);
+        try {
+            const timeStamp = Date.now();
+            //Date object thats 5 minutes in the past
+            var dt = new Date();
+            dt.setMinutes(dt.getMinutes() - 5);
 
-        //Create object if user joined the same voice channel within 5 minutes
-        let userJoin = await User.findAll({
+            //Create object if user joined the same voice channel within 5 minutes
+            let userJoin = await User.findAll({
                 attributes: ['clientId', 'lastVoiceChannel', 'lastJoinedTime'],
                 where: {
                     clientId: newMember.id,
                     lastJoinedTime: {
-                        [Op.gt]: dt      //if the lastJoinedTime is older than 5 minutes
+                        [Op.gt]: dt //if the lastJoinedTime is older than 5 minutes
                     },
                     lastVoiceChannel: newMember.voiceChannel.id
                 }
             })
 
-        //If userJoin does not exist, then update user lastJoinedTime and lastVoiceChannel
-        if (!Array.isArray(userJoin) || !userJoin.length) {
-            User.update({
-                lastJoinedTime: timeStamp,
-                lastVoiceChannel: newMember.voiceChannel.id
-            }, {
-                where: {
-                    clientId: newMember.user.id
-                }
-            });
-        }
+            //If userJoin does exist then stop running code
+            if (Array.isArray(userJoin) && userJoin.length == 1) {
+                console.log(newMember.user.username + " has re-connected");
+                return;
+            }
 
-        //If userJoin does exist then stop running code
-        if (Array.isArray(userJoin) && userJoin.length == 1) {
-            console.log(newMember.user.username + " has re-connected");
-            return;
-        }
-
-        try {
+            //If userJoin does not exist, then update user lastJoinedTime and lastVoiceChannel
+            if (!Array.isArray(userJoin) || !userJoin.length) {
+                let userUpdate = await User.update({
+                    lastJoinedTime: timeStamp,
+                    lastVoiceChannel: newMember.voiceChannel.id
+                }, {
+                    where: {
+                        clientId: newMember.user.id
+                    }
+                });
+            }
             // Select all users who are subscribed to this channel.
             let subscriptionIds = await VoiceChannelSubscription.findAll({
                     attributes: ['clientId'],
