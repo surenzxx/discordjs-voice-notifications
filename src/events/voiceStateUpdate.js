@@ -9,22 +9,6 @@ module.exports = async(client, oldMember, newMember) => {
     if (!oldMember.voiceChannel && newMember.voiceChannel && newMember.guild.name == "Dune") {
         console.log(newMember.user.username + " joined. ");
         const timeStamp = Date.now();
-        
-        //Adds users to the database
-        let newUser = await User.findOrCreate({
-            where: {
-                clientId: newMember.user.id
-            },
-            defaults: {
-                clientId: newMember.user.id,
-                joined: newMember.guild.joinedTimestamp,
-                createdAt: newMember.user.createdAt,
-                username: newMember.user.username,
-                lastJoinedTime: timeStamp,
-                lastVoiceChannel: newMember.voiceChannel.id
-            }
-        });
-        
         //Date object thats 5 minutes in the past
         var dt = new Date();
         dt.setMinutes(dt.getMinutes() - 5);

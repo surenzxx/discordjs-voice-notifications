@@ -1,11 +1,9 @@
 const User = require('../models/User');
 const Guild = require('../models/Guild');
-const UserGuilds = require('../models/UserGuilds')
 
 /**
  * Add user to Users table
  * Add guild to Guild table
- * Add user and guild ids to UserGuild table.
  */
 module.exports = async (client, member) => {
     console.log("Member joined.");
@@ -25,13 +23,6 @@ module.exports = async (client, member) => {
                 guildId: member.guild.id,
                 guildName: member.guild.name,
                 guildCreateDate: member.guild.createdAt
-            }
-        });
-        let newUserGuild = await UserGuilds.findOrCreate({
-            where: { guildId: member.guild.id, clientId: member.id },
-            defaults: {
-                guildId: member.guild.id,
-                clientId: member.id
             }
         });
 
