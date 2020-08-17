@@ -5,13 +5,15 @@ Receive notifications when a user joins a channel by subscribing. Users can subs
 
 ## Installation
 
-Clone this repository: `git clone https://github.com/surenzz/discordjs-voice-notifications.git`
-
+Clone this repository: 
+```
+git clone https://github.com/surenzz/discordjs-voice-notifications.git
+```
 Create a `.env` file in the root directory.
 ```
 BOT_TOKEN="TOKEN GOES HERE"
 ```
 
-Run `npm i`
+Run `npm install`
 
 Run in dev mode: `npm run dev`
