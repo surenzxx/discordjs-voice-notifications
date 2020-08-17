@@ -6,8 +6,7 @@ const { RichEmbed } = require('discord.js');
 
 module.exports = async(client, oldMember, newMember) => {
     // If member joins voice channel.
-    if (!oldMember.voiceChannel && newMember.voiceChannel) {
-        console.log(newMember.user.username + " joined");
+    if (!oldMember.voiceChannel && newMember.voiceChannel && !newMember.user.bot) {
         try {
             const timeStamp = Date.now();
             var dt = new Date();
@@ -27,12 +26,13 @@ module.exports = async(client, oldMember, newMember) => {
 
             //If member re-connected then stop running code
             if (Array.isArray(userReconnect) && userReconnect.length == 1) {
-                console.log(newMember.user.username + " has re-connected");
+                console.log(newMember.user.username + " has re-joined");
                 return;
             }
 
             //If member did not re-connect then update user lastJoinedTime and lastVoiceChannel
-            if (!Array.isArray(userReconnect) || !userReconnect.length) {
+          if (!Array.isArray(userReconnect) || !userReconnect.length) {
+                console.log(newMember.user.username + " joined")
                 let userUpdate = await User.update({
                     lastJoinedTime: timeStamp,
                     lastVoiceChannel: newMember.voiceChannel.id
@@ -56,7 +56,7 @@ module.exports = async(client, oldMember, newMember) => {
             // We check if the member who joined is in their whitelist.
             for (let i = 0; i < subscriptionIds.length; i++) {
                 //Gets user's whitelist from database
-                let whitelist = await Whitelist.findAll({           
+                let whitelist = await Whitelist.findAll({
                     attributes: ['whitelistedUserId'],
                     where: {
                         channelId: newMember.voiceChannel.id,
@@ -66,7 +66,7 @@ module.exports = async(client, oldMember, newMember) => {
                 }).map(wl => wl.dataValues.whitelistedUserId);
 
                 // If whitelist is empty, send them a message
-                if (whitelist.length === 0 && newMember.user.bot == false) { 
+                if (whitelist.length === 0) {
                     // Send message
                     embed = new RichEmbed()
                         .setTitle(`${newMember.displayName} joined ${newMember.voiceChannel.name} in ${newMember.guild.name}`)
@@ -90,7 +90,7 @@ module.exports = async(client, oldMember, newMember) => {
                             .setColor("#298DEC")
                             .setTimestamp();
                         let member = newMember.guild.members.find(m => m.id === subscriptionIds[i]);
-		                //if member exists and is not in voiceChannel in current Guild
+		                    //if member exists and is not in voiceChannel in current Guild
                         if (member && typeof member.voiceChannel === "undefined"){
                             console.log(member.displayName + " got notified about " + newMember.displayName);
                             member.user.send(embed);
