@@ -4,7 +4,6 @@ const Guild = require('../models/Guild');
 /**
  * Add user to Users table
  * Add guild to Guild table
- * Add user and guild ids to UserGuild table.
  */
 module.exports = async (client, guild) => {
     console.log("Bot joined a guild.");
