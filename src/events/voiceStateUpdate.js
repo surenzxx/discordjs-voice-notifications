@@ -31,7 +31,7 @@ module.exports = async(client, oldMember, newMember) => {
             }
 
             //If member did not re-connect then update user lastJoinedTime and lastVoiceChannel
-          if (!Array.isArray(userReconnect) || !userReconnect.length) {
+            if (!Array.isArray(userReconnect) || !userReconnect.length) {
                 console.log(newMember.user.username + " joined")
                 let userUpdate = await User.update({
                     lastJoinedTime: timeStamp,
